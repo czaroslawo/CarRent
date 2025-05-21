@@ -1,0 +1,7 @@
+<div class="">
+  <input type="file" class="border" (change)="onFileSelected($event)" accept="image/*">
+  <div *ngIf="imagePreview">
+    <p>Preview</p>
+    <img [src]="imagePreview" alt="Image preview" width="300">
+  </div>
+</div>

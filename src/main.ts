@@ -14,7 +14,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(RouterModule.forRoot(routes)),
     provideHttpClient(withInterceptors([authInterceptor])),
     MatIconModule,
-    provideNativeDateAdapter()
+    provideNativeDateAdapter(),
   ]
 })
   .catch((err) => console.error(err));

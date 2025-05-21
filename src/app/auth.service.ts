@@ -1,39 +1,53 @@
-import {inject, Injectable} from '@angular/core';
+import {Inject, inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {BehaviorSubject, tap} from 'rxjs';
 import {environment} from '../enviornments/enviornment';
+import {isPlatformBrowser} from '@angular/common';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+
   private http = inject(HttpClient);
   private router = inject(Router);
 
   private tokenKey = 'auth_token';
   private isLoggedIn$ = new BehaviorSubject<boolean>(false);
 
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    const token = this.getToken();
+    this.isLoggedIn$.next(!!token);
+  }
+
   login(email: string, password: string){
     return this.http.post<{token: string}>(`${environment.apiUrl}/api/login`, {email, password})
       .pipe(
         tap(response =>{
-          localStorage.setItem(this.tokenKey, response.token);
-          this.isLoggedIn$.next(true);
+          if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem(this.tokenKey, response.token);
+            this.isLoggedIn$.next(true);
+          }
           }
         )
       )
   }
 
   logout(){
-    localStorage.removeItem(this.tokenKey);
-    this.isLoggedIn$.next(false);
-    this.router.navigate(['/login']);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem(this.tokenKey);
+      this.isLoggedIn$.next(false);
+      this.router.navigate(['/login']).then(r => true);
+    }
   }
 
   getToken():string | null{
-    return localStorage.getItem(this.tokenKey);
+    return isPlatformBrowser(this.platformId)
+      ? localStorage.getItem(this.tokenKey)
+      : null;
   }
 
   isAuthenticated(){
@@ -44,8 +58,7 @@ export class AuthService {
     return typeof window !== 'undefined' ? localStorage.getItem(this.tokenKey) : null;
   }
 
-  constructor() {
-  }
+
 
 
 }
