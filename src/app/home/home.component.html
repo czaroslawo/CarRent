@@ -1,1 +1,39 @@
-<p>home works!</p>
+<div class="fixed bottom-8 right-8 z-1">
+  <button (click)="navigateToAdd()" class="bg-green-400 text-white font-bold rounded-2xl p-3 w-min h-min shadow-xl hover:bg-green-500 active:bg-green-600">Dodaj ogłoszenie</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
+  <app-rent-item
+    *ngFor="let car of cars"
+    [title]="car.title"
+    [imageUrl]="car.imageUrl"
+    [location]="car.location"
+    [transmission]="car.transmission"
+    [seats]="car.seats"
+    [power]="car.power"
+    [price]="car.price"
+    [rating]="car.rating">
+  </app-rent-item>
+  <app-rent-item
+    *ngFor="let car of cars"
+    [title]="car.title"
+    [imageUrl]="car.imageUrl"
+    [location]="car.location"
+    [transmission]="car.transmission"
+    [seats]="car.seats"
+    [power]="car.power"
+    [price]="car.price"
+    [rating]="car.rating">
+  </app-rent-item>
+  <app-rent-item></app-rent-item>
+  <app-rent-item></app-rent-item>
+  <app-rent-item></app-rent-item>
+  <app-rent-item></app-rent-item>
+  <app-rent-item></app-rent-item>
+  <app-rent-item></app-rent-item>
+  <app-rent-item></app-rent-item>
+  <app-rent-item></app-rent-item>
+  <app-rent-item></app-rent-item>
+  <app-rent-item></app-rent-item>
+
+
+</div>
