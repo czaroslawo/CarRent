@@ -1,7 +1,20 @@
-<div class="">
-  <input type="file" class="border" (change)="onFileSelected($event)" accept="image/*">
-  <div *ngIf="imagePreview">
-    <p>Preview</p>
-    <img [src]="imagePreview" alt="Image preview" width="300">
+<div class="flex flex-col gap-4 w-full items-center justify-center">
+  <label class="bg-green-100 rounded-xl w-44 h-20 flex items-center justify-center shadow-md hover:bg-green-200 active:bg-green-300">
+    <p class="text-green-700">Dodaj zdjęcia</p>
+    <input type="file" class="hidden" (change)="onFileSelected($event)" accept="image/*">
+  </label>
+  <p class="text-sm text-gray-600">Pierwsze zdjęcie będzie na okładce ogłoszenia</p>
+  <div *ngIf="imagePreviews.length > 0">
+    <div *ngIf="selectedImage" class="mt-4">
+      <p class=" text-green-600">Podgląd:</p>
+      <img [src]="selectedImage" alt="Selected image" class="w-100 aspect-[4/3] object-cover object-center rounded mb-4">
+    </div>
+    <p class=" text-green-600">Galeria:</p>
+    <div class="flex flex-wrap gap-4">
+      <div *ngFor="let preview of imagePreviews; let i = index" class="relative">
+        <img [src]="preview" alt="Image preview" width="100" (click)="selectImage(preview)" class="rounded h-30 w-auto">
+        <button (click)="removeImage(i)" class="absolute top-1 right-1 border border-b-green-500 bg-white text-green-500 rounded-full py-1 px-2 text-xs">x</button>
+      </div>
+    </div>
   </div>
 </div>

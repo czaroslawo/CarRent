@@ -14,6 +14,7 @@ export class RentItemComponent {
   @Input() transmission: string = '';
   @Input() seats: number = 0;
   @Input() power: number = 0;
+  @Input() year: number = 0;
   @Input() price: number = 0;
   @Input() rating: number = 0;
 }

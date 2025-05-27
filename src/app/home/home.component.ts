@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {RentItemComponent} from '../rent-item/rent-item.component';
 import {NgForOf} from '@angular/common';
-import {RentItem} from '../../Models/RentItem';
+import {RentItemPoster} from '../../Models/RentItem';
 import {Router} from '@angular/router';
 
 @Component({
@@ -17,7 +17,7 @@ import {Router} from '@angular/router';
 export class HomeComponent {
   constructor(private router: Router) { }
 
-  cars: RentItem[] = [
+  cars: RentItemPoster[] = [
     {
       title: 'Ford Mustang',
       imageUrl: 'https://images.unsplash.com/photo-1649274749460-5851a718dd2a?...',
@@ -25,6 +25,7 @@ export class HomeComponent {
       transmission: 'automatyczna',
       seats: 5,
       power: 300,
+      year: 2020,
       price: 60,
       rating: 10
     },
@@ -35,6 +36,7 @@ export class HomeComponent {
       transmission: 'manualna',
       seats: 4,
       power: 450,
+      year: 2024,
       price: 120,
       rating: 9
     }

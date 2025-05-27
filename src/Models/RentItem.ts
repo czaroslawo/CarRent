@@ -1,4 +1,4 @@
-export interface RentItem {
+export interface RentItemPoster {
   id?: number,
   imageUrl: string,
   title: string,
@@ -6,6 +6,7 @@ export interface RentItem {
   transmission: string,
   seats: number,
   power: number,
-  price: number
+  year: number,
+  price: number,
   rating: number,
 }

@@ -1,3 +1,33 @@
-<div class="flex flex-col p-4">
-<app-image-upload></app-image-upload>
+<div class="flex flex-col">
+  <div class="flex flex-col sm:flex-row p-4 space-x-10 w-full justify-between">
+    <div class="flex flex-col basis-1/4">
+      <input #inputTitle type="text" class="border border-gray-300 focus:border-green-500 outline-0 rounded p-2 mb-4 w-full placeholder:text-gray-700" placeholder="Model Auta">
+      <input #inputSeats type="number" class="border border-gray-300 focus:border-green-500 outline-0 rounded p-2 mb-4 placeholder:text-gray-700" placeholder="Ilosć miejsc">
+      <input #inputPower type="number" class="border border-gray-300 focus:border-green-500 outline-0 rounded p-2 mb-4 placeholder:text-gray-700" placeholder="Moc Silnika">
+      <input #inputYear type="number" class="border border-gray-300 focus:border-green-500 outline-0 rounded p-2 mb-4 placeholder:text-gray-700" placeholder="Rok produkcji">
+      <input #inputCena type="number" class="border border-gray-300 focus:border-green-500 outline-0 rounded p-2 mb-4 placeholder:text-gray-700" placeholder="Cena za dzień">
+      <div class="flex flex-col border border-green-500 rounded-xl p-2 items-center mb-4">
+        <div>
+          <p>Skrzynia biegów:</p>
+          <div>
+            <div class="flex">
+              <input type="radio" name="transmission" class="form-radio me-2">
+              <p>manualna</p>
+            </div>
+            <div class="flex">
+              <input type="radio" name="transmission" class="me-2">
+              <p>automatyczna</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="basis-1/2 mb-4">
+      <textarea id="message" rows="4" class="border border-gray-300 focus:border-green-500 outline-0 rounded w-full h-150 md:h-full p-2 placeholder:text-gray-700" placeholder="dodaj opis auta"></textarea>
+    </div>
+    <app-image-upload class="flex basis-1/4 md:justify-center items-center md:self-start"></app-image-upload>
+  </div>
+  <button class="bg-green-500 text-white font-bold p-4 rounded-xl w-60 self-center m-4 hover:bg-green-600 active:bg-green-700">Opublikuj</button>
 </div>
