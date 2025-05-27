@@ -3,13 +3,14 @@ import {ImageUploadComponent} from '../image-upload/image-upload.component';
 import {MatButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
+import {MapboxComponent} from '../mapbox/mapbox.component';
 
 
 @Component({
   selector: 'app-add-ad',
   imports: [
     ImageUploadComponent,
-    MatButton
+    MapboxComponent
   ],
   templateUrl: './add-ad.component.html',
   styleUrl: './add-ad.component.css'

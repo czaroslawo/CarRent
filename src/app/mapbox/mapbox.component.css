@@ -1,0 +1,6 @@
+#map {
+  position: relative;
+}
+.mapboxgl-marker {
+  z-index: 1000;
+}
