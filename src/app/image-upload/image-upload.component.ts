@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
 
 @Component({
@@ -12,6 +12,8 @@ export class ImageUploadComponent {
   imagePreviews: string[] = [];
   selectedImage: string | null = null;
 
+  @Output() imageExport = new EventEmitter<string[]>();
+
   onFileSelected(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
 
@@ -20,6 +22,7 @@ export class ImageUploadComponent {
       reader.onload = () => {
         const result = reader.result as string;
         this.imagePreviews.push(result);
+        this.imageExport.emit(this.imagePreviews)
         if (!this.selectedImage) {
           this.selectedImage = result;
         }

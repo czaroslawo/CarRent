@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import {environment} from '../../enviornments/enviornment';
 
@@ -18,6 +18,9 @@ export class MapboxComponent implements OnInit {
   map!: mapboxgl.Map;
   marker: mapboxgl.Marker | null = null;
 
+  @Output() addressSelected = new EventEmitter<string>();
+  @Output() citySelected = new EventEmitter<string>();
+
   ngOnInit(): void {
     // (mapboxgl.default as any).accessToken = environment.mapboxToken;
     this.map = new mapboxgl.Map({
@@ -30,13 +33,13 @@ export class MapboxComponent implements OnInit {
 
     })
 
-    this.map.on('click', (e) =>{
+    this.map.on('click', (e) => {
       this.mapClickFn(e.lngLat)
     })
   }
 
-  mapClickFn(coordinates: mapboxgl.LngLat){
-    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${coordinates.lng},${coordinates.lat}.json?access_token=${environment.mapboxToken}&types=place,region,poi,address`;
+  mapClickFn(coordinates: mapboxgl.LngLat) {
+    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${coordinates.lng},${coordinates.lat}.json?access_token=${environment.mapboxToken}&language=pl&types=place,region,poi,address`;
 
 
     fetch(url)
@@ -46,16 +49,16 @@ export class MapboxComponent implements OnInit {
         const bestMatch =
           data.features.find((f: MapboxFeature) => f.place_type.includes('address')) ||
           data.features.find((f: MapboxFeature) => f.place_type.includes('place')) ||
-          data.features[0]; // fallback na pierwszy dostępny wynik
+          data.features[0];
 
         if (bestMatch) {
           const address = bestMatch.place_name;
-          console.log("Lokalizacja:", address);
+          const city = this.extractCityFromFeature(bestMatch);
+          this.citySelected.emit(city);
+          this.addressSelected.emit(address);
           if (this.marker) {
-            console.log("przenoszę pinezkę")
             this.marker.setLngLat([coordinates.lng, coordinates.lat]);
           } else {
-            console.log("Tworzę nową pinezkę");
             this.marker = new mapboxgl.Marker()
               .setLngLat([coordinates.lng, coordinates.lat])
               .addTo(this.map);
@@ -68,5 +71,19 @@ export class MapboxComponent implements OnInit {
         console.error("Błąd podczas pobierania adresu:", error);
       });
 
+  }
+
+  extractCityFromFeature(feature: any): string {
+    if (!feature) return "Nieznana lokalizacja";
+    const cityContext = feature.context?.find((c: any) =>
+      c.id.startsWith("place.")
+    );
+
+    const cityFromSelf =
+      feature.place_type?.includes("place") ? feature.text : null;
+
+    const city = cityContext?.text || cityFromSelf;
+
+    return city || "Nieznane miasto";
   }
 }
