@@ -11,8 +11,9 @@ import { NgIf, NgFor } from '@angular/common';
 export class ImageUploadComponent {
   imagePreviews: string[] = [];
   selectedImage: string | null = null;
+  selectedFiles: File[] = [];
 
-  @Output() imageExport = new EventEmitter<string[]>();
+  @Output() imageExport = new EventEmitter<File[]>();
 
   onFileSelected(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
@@ -20,11 +21,12 @@ export class ImageUploadComponent {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        const result = reader.result as string;
-        this.imagePreviews.push(result);
-        this.imageExport.emit(this.imagePreviews)
+        const previewUrl = reader.result as string;
+        this.imagePreviews.push(previewUrl);
+        this.selectedFiles.push(file);
+        this.imageExport.emit(this.selectedFiles)
         if (!this.selectedImage) {
-          this.selectedImage = result;
+          this.selectedImage = previewUrl;
         }
       };
       reader.readAsDataURL(file);
@@ -38,6 +40,9 @@ export class ImageUploadComponent {
 
   removeImage(index: number) {
     this.imagePreviews.splice(index, 1);
+    this.selectedFiles.splice(index, 1);
+
+    this.imageExport.emit(this.selectedFiles);
     if (this.selectedImage === this.imagePreviews[index]) {
       this.selectedImage = this.imagePreviews[0] || null;
     }

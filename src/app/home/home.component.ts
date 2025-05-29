@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {RentItemComponent} from '../rent-item/rent-item.component';
 import {NgForOf} from '@angular/common';
-import {RentItemPoster} from '../../Models/RentItem';
+import {RentItemPosterGet} from '../../Models/RentItem';
 import {Router} from '@angular/router';
 
 @Component({
@@ -17,7 +17,7 @@ import {Router} from '@angular/router';
 export class HomeComponent {
   constructor(private router: Router) { }
 
-  cars: RentItemPoster[] = [
+  cars: RentItemPosterGet[] = [
     {
       title: 'Ford Mustang',
       imageUrl: 'https://images.unsplash.com/photo-1649274749460-5851a718dd2a?...',

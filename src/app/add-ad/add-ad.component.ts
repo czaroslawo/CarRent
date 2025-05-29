@@ -5,6 +5,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {MapboxComponent} from '../mapbox/mapbox.component';
 import {FormsModule} from '@angular/forms';
+import {RentItemPosterPost} from '../../Models/RentItem';
+import imageCompression from 'browser-image-compression';
 
 
 @Component({
@@ -40,7 +42,7 @@ export class AddAdComponent {
   @ViewChild('transmissionBorder') transmissionBorder!: ElementRef;
 
 
-  images: string[] = [];
+  images: File[] = [];
   transmission: string = '';
 
   showError(input: ElementRef, error: ElementRef) {
@@ -81,6 +83,18 @@ export class AddAdComponent {
     const description = this.inputDescription.nativeElement.value;
     const transmissionBorder = this.transmissionBorder.nativeElement.classList;
     const images = this.images;
+
+    const rentItemPoster: RentItemPosterPost = {
+      imageUrl: this.images,
+      title: title,
+      location: location,
+      transmission: transmission,
+      seats: Number(seats),
+      power: Number(power),
+      year: Number(year),
+      price: Number(price),
+      rating: 0
+    }
 
     this.clearErrors()
 
@@ -127,7 +141,8 @@ export class AddAdComponent {
     }
 
     if(isValid){
-      this.dialog.open(ConfirmationDialogComponent);
+      this.dialog.open(ConfirmationDialogComponent, {data:{ rentItemPoster }
+    });
     }
 
   }
@@ -136,8 +151,24 @@ export class AddAdComponent {
     this.inputLocation.nativeElement.value = address;
   }
 
-  onImageRecived(images: string[]){
-    this.images = images;
+  async onImageRecived(images: File[]){
+    const compressedImages: File[] = []
+
+    for(const image of images){
+      const options = {
+        maxSizeMB: 2,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+      }
+      try{
+        const compressedFile = await imageCompression(image, options);
+        compressedImages.push(compressedFile);
+      }catch(e){
+        console.log("compression error:", e);
+      }
+    }
+    this.images = compressedImages;
+    console.log('Compressed images:', this.images);
   }
 
   onCityRecived(city: string){
