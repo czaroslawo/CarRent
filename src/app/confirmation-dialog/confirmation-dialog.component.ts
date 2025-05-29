@@ -18,6 +18,7 @@ export class ConfirmationDialogComponent {
   private router = inject(Router);
   private http = inject(HttpClient);
 
+
   dialogRef = inject(MatDialogRef<ConfirmationDialogComponent>);
   data = inject(MAT_DIALOG_DATA)
 
@@ -33,10 +34,8 @@ export class ConfirmationDialogComponent {
     formData.append('year', data.year.toString());
     formData.append('price', data.price.toString());
     formData.append('rating', data.rating.toString());
+    formData.append('imageUrl', data.imageUrl[0]);
 
-    for (let i = 0; i < data.imageUrl.length; i++) {
-      formData.append('imageUrl[]', data.imageUrl[i]);
-    }
 
     console.log(formData);
 
