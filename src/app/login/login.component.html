@@ -1,20 +1,30 @@
-<div class="flex justify-center pt-40 min-h-screen">
-  <div class="flex flex-col shadow-xl p-8 rounded max-w-md self-start">
-    <h2 class="text-3xl font-bold mb-6">Login</h2>
-    <p #emailError class="text-red-500 text-xs mb-1 hidden">E-mail jest wymagany</p>
-    <input #emailInput type="text" class="border border-gray-300 focus:border-green-500 outline-0 rounded p-2 mb-4"
-           placeholder="e-mail">
-    <p #passwordError class="text-red-500 text-xs mb-1 hidden">Hasło jest wymagane</p>
-    <input #passwordInput type="password"
-           class="border border-gray-300 focus:border-green-500 outline-0 rounded p-2 mb-4" placeholder="hasło">
-    <button (click)="onLogin()"
-            class="rounded shadow-md bg-green-400 text-white p-2 mb-2 font-bold hover:bg-green-500 active:bg-green-600">
-      Zaloguj się!
-    </button>
-    <div>
-      <p class="text-sm">nie masz jeszcze konta?
-        <a routerLink="/register" href='#' class="text-green-500 hover:text-green-600 active:text-green-700">
-          Zarejestruj się</a></p>
+<form (ngSubmit)="onLogin()" #LoginForm='ngForm' novalidate>
+  <div class="flex justify-center pt-40 min-h-screen">
+    <div class="flex flex-col shadow-xl p-8 rounded max-w-md self-start">
+      <h2 class="text-3xl font-bold mb-6">Login</h2>
+      <p *ngIf="submitted && email.invalid" class="text-red-500 text-xs mb-1">
+        {{ email.errors?.['required'] ? 'E-mail jest wymagany' : 'E-mail jest niepoprawny' }}
+      </p>
+      <input name="email" [(ngModel)]="user.email" #email="ngModel" type="email" [ngClass]="{
+    'border-red-500 focus:border-red-500': submitted && email.invalid,
+    'border-gray-300 focus:border-green-500': !(submitted && email.invalid)
+  }" class="border  outline-0 rounded p-2 mb-4"
+             placeholder="e-mail" required email>
+      <p *ngIf="submitted && password.invalid" class="text-red-500 text-xs mb-1">Hasło jest wymagane</p>
+      <input name="password" [(ngModel)]="user.password" #password="ngModel" type="password"
+             [ngClass]="{
+    'border-red-500 focus:border-red-500': submitted && email.invalid,
+    'border-gray-300 focus:border-green-500': !(submitted && email.invalid)
+  }" class="border  outline-0 rounded p-2 mb-4" placeholder="hasło" required>
+      <button type="submit"
+              class="rounded shadow-md bg-green-400 text-white p-2 mb-2 font-bold hover:bg-green-500 active:bg-green-600">
+        Zaloguj się!
+      </button>
+      <div>
+        <p class="text-sm">nie masz jeszcze konta?
+          <a routerLink="/register" href='#' class="text-green-500 hover:text-green-600 active:text-green-700">
+            Zarejestruj się</a></p>
+      </div>
     </div>
   </div>
-</div>
+</form>
