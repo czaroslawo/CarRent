@@ -56,7 +56,8 @@ export class AddAdComponent {
       return
     }
       this.dialog.open(ConfirmationDialogComponent,
-        {data:{ RentItemPosterPost: data }
+        {data:{ RentItemPosterPost: data,
+          images: this.images }
     });
 
 

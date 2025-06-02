@@ -34,7 +34,7 @@ export class ConfirmationDialogComponent {
     formData.append('year', data.year.toString());
     formData.append('price', data.price.toString());
     formData.append('rating', data.rating.toString());
-    formData.append('imageUrl', data.imageUrl[0]);
+    formData.append('imageUrl', this.data.images[0]);
 
 
     console.log(formData);
