@@ -2,9 +2,10 @@ import {Component, ElementRef, inject, ViewChild} from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {environment} from '../../enviornments/enviornment';
 import {User} from '../../Models/User';
 import {NgClass, NgIf} from '@angular/common';
+import {environment} from '../../environment/environment';
+
 
 
 

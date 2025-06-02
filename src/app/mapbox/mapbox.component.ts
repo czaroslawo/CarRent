@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
-import {environment} from '../../enviornments/enviornment';
+import {environment} from '../../environment/environment';
+
 
 
 interface MapboxFeature {

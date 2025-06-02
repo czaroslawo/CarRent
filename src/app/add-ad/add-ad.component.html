@@ -1,47 +1,88 @@
-<div class="flex flex-col">
-  <div class="flex flex-col sm:flex-row p-4 space-x-10 w-full justify-between ">
-    <div class="flex flex-col basis-1/4">
-      <p #errorTitle class="text-red-500 text-xs mb-1 hidden">Pole jest wymagane</p>
-      <input #inputTitle type="text" class="border border-gray-300 focus:border-green-500 outline-0 rounded p-2 mb-4 w-full placeholder:text-gray-700" placeholder="Model Auta">
-      <p #errorSeats class="text-red-500 text-xs mb-1 hidden">Pole jest wymagane</p>
-      <input #inputSeats type="number" class="border border-gray-300 focus:border-green-500 outline-0 rounded p-2 mb-4 placeholder:text-gray-700" placeholder="Ilosć miejsc">
-      <p #errorPower class="text-red-500 text-xs mb-1 hidden">Pole jest wymagane</p>
-      <input #inputPower type="number" class="border border-gray-300 focus:border-green-500 outline-0 rounded p-2 mb-4 placeholder:text-gray-700" placeholder="Moc Silnika">
-      <p #errorYear class="text-red-500 text-xs mb-1 hidden">Pole jest wymagane</p>
-      <input #inputYear type="number" class="border border-gray-300 focus:border-green-500 outline-0 rounded p-2 mb-4 placeholder:text-gray-700" placeholder="Rok produkcji">
-      <p #errorLocation class="text-red-500 text-xs mb-1 hidden">Pole jest wymagane</p>
-      <input #inputLocation type="text" class="border border-gray-300 focus:border-green-500 outline-0 rounded p-2 mb-4 placeholder:text-gray-700" placeholder="Lokalizacja">
-      <p #errorPrice class="text-red-500 text-xs mb-1 hidden">Pole jest wymagane</p>
-      <input #inputPrice type="number" class="border border-gray-300 focus:border-green-500 outline-0 rounded p-2 mb-4 placeholder:text-gray-700" placeholder="Cena za dzień">
-      <div #transmissionBorder class="flex flex-col border border-green-500 rounded-xl p-2 items-center mb-4">
-        <div>
-          <p>Skrzynia biegów:</p>
-          <div>
-            <div class="flex">
-              <input type="radio" name="transmission" [(ngModel)]="transmission" value="manualna" class="form-radio me-2">
-              <p>manualna</p>
+<form (ngSubmit)="openDialog(addAdForm)" #addAdForm='ngForm' novalidate>
+  <div class="flex flex-col">
+    <div class="flex flex-col sm:flex-row p-4 space-x-10 w-full justify-between ">
+      <div class="flex flex-col basis-1/4">
+        <p *ngIf="submitted && title.invalid" class="text-red-500 text-xs mb-1">Pole jest wymagane</p>
+        <input name="title" [(ngModel)]="form.title" #title='ngModel' type="text"
+               [ngClass]="{
+        'border-red-500 focus:border-red-500': submitted && title.invalid,
+        'border-gray-300 focus:border-green-500': !(submitted && title.invalid)
+        }" class="border  outline-0 rounded p-2 mb-4 placeholder:text-gray-700" placeholder="Model Auta" required>
+        <p *ngIf="submitted && seats.invalid" class="text-red-500 text-xs mb-1">Pole jest wymagane</p>
+        <input name="seats" [(ngModel)]="form.seats" #seats='ngModel' type="text"
+               [ngClass]="{
+        'border-red-500 focus:border-red-500': submitted && seats.invalid,
+        'border-gray-300 focus:border-green-500': !(submitted && seats.invalid)
+        }" class="border  outline-0 rounded p-2 mb-4 placeholder:text-gray-700" placeholder="Ilosć miejsc" required>
+        <p *ngIf="submitted && seats.invalid" class="text-red-500 text-xs mb-1 hidden">Pole jest wymagane</p>
+        <input name="power" [(ngModel)]="form.power" #power='ngModel' type="text"
+               [ngClass]="{
+        'border-red-500 focus:border-red-500': submitted && power.invalid,
+        'border-gray-300 focus:border-green-500': !(submitted && power.invalid)
+        }" class="border  outline-0 rounded p-2 mb-4 placeholder:text-gray-700" placeholder="Moc Silnika" required>
+        <p *ngIf="submitted && year.invalid" class="text-red-500 text-xs mb-1">Pole jest wymagane</p>
+        <input name="year" [(ngModel)]="form.year" #year='ngModel' type="text"
+               [ngClass]="{
+        'border-red-500 focus:border-red-500': submitted && year.invalid,
+        'border-gray-300 focus:border-green-500': !(submitted && year.invalid)
+        }" class="border  outline-0 rounded p-2 mb-4 placeholder:text-gray-700" placeholder="Rok produkcji" required>
+        <p *ngIf="submitted && location.invalid" class="text-red-500 text-xs mb-1 hidden">Pole jest wymagane</p>
+        <input name="location" [(ngModel)]="form.location" #location='ngModel' type="text"
+               [ngClass]="{
+        'border-red-500 focus:border-red-500': submitted && location.invalid,
+        'border-gray-300 focus:border-green-500': !(submitted && location.invalid)
+        }" class="border  outline-0 rounded p-2 mb-4 placeholder:text-gray-700"
+               placeholder="Wybierz lokalizację na mapie" required>
+        <p *ngIf="submitted && price.invalid" class="text-red-500 text-xs mb-1">Pole jest wymagane</p>
+        <input name="price" [(ngModel)]="form.price" #price='ngModel' type="text"
+               [ngClass]="{
+        'border-red-500 focus:border-red-500': submitted && price.invalid,
+        'border-gray-300 focus:border-green-500': !(submitted && price.invalid)
+        }" class="border  outline-0 rounded p-2 mb-4 placeholder:text-gray-700" placeholder="Cena za dzień" required>
+        <div [ngClass]="{
+        'border-red-500 focus:border-red-500': submitted && transmission.invalid,
+        'border-gray-300 focus:border-green-500': !(submitted && transmission.invalid) }"
+             class="border border-green-500' outline-0 flex flex-col rounded-xl p-2 items-center mb-4" required>
+          <div #transmission="ngModelGroup"
+               ngModelGroup="transmissionGroup">
+            <p>Skrzynia biegów:</p>
+            <div>
+              <div class="flex">
+                <input type="radio" name="transmission" [(ngModel)]="form.transmission"
+                       value="manualna" class="form-radio me-2" required>
+                <p>manualna</p>
+              </div>
+              <div class="flex">
+                <input type="radio" name="transmission" [(ngModel)]="form.transmission"
+                       value="automatyczna" class="me-2" required>
+                <p>automatyczna</p>
+              </div>
             </div>
-            <div class="flex">
-              <input type="radio" name="transmission"  [(ngModel)]="transmission" value="automatyczna" class="me-2">
-              <p>automatyczna</p>
-            </div>
+
           </div>
 
         </div>
-
+      </div>
+      <div class="basis-1/2 mb-4 flex flex-col">
+        <p *ngIf="submitted && description.invalid" class="text-red-500 text-xs mb-1">Pole jest wymagane</p>
+        <textarea name="description" [(ngModel)]="descript" #description='ngModel' rows="4" [ngClass]="{
+        'border-red-500 focus:border-red-500': submitted && description.invalid,
+        'border-gray-300 focus:border-green-500': !(submitted && description.invalid) }"
+                  class="border border-gray-300 focus:border-green-500' outline-0 rounded w-full h-150 md:h-full p-2 placeholder:text-gray-700"
+                  placeholder="dodaj opis auta" required></textarea>
+      </div>
+      <div class="flex flex-col">
+        <p *ngIf="submitted && images.length===0" class="text-red-500 text-xs mb-1 self-center">Musisz dodać przynajmniej jedno zdjęcie</p>
+        <app-image-upload (imageExport)="onImageRecived($event)"
+                          class="flex basis-1/4 md:justify-center items-center"></app-image-upload>
       </div>
     </div>
-    <div class="basis-1/2 mb-4 flex flex-col">
-      <p #errorDescription class="text-red-500 text-xs mb-1 hidden">Pole jest wymagane</p>
-      <textarea #inputDescription rows="4" class="border border-gray-300 focus:border-green-500 outline-0 rounded w-full h-150 md:h-full p-2 placeholder:text-gray-700" placeholder="dodaj opis auta"></textarea>
+    <div class="w-full flex flex-row justify-center">
+      <app-mapbox (addressSelected)="onAddressRecived($event)"
+                  class="w-full not-sm:m-4 md:basis-2/3 sm:mb-4"></app-mapbox>
     </div>
-    <div class="flex flex-col">
-      <p #errorImage class="text-red-500 text-xs mb-1 hidden self-center">Musisz dodać przynajmniej jedno zdjęcie</p>
-      <app-image-upload (imageExport)="onImageRecived($event)"  class="flex basis-1/4 md:justify-center items-center"></app-image-upload>
-    </div>
+    <button class="bg-green-500 text-white font-bold p-4 rounded-xl w-60 self-center m-4 hover:bg-green-600 active:bg-green-700 shadow-md">
+      Opublikuj
+    </button>
   </div>
-  <div class="w-full flex flex-row justify-center">
-    <app-mapbox (addressSelected)="onAddressRecived($event)" class="w-full not-sm:m-4 md:basis-2/3 sm:mb-4"></app-mapbox>
-  </div>
-  <button (click)="openDialog()" class="bg-green-500 text-white font-bold p-4 rounded-xl w-60 self-center m-4 hover:bg-green-600 active:bg-green-700 shadow-md">Opublikuj</button>
-</div>
+</form>

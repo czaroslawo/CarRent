@@ -2,8 +2,8 @@ import {Component, inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogClose, MatDialogRef} from '@angular/material/dialog';
 import {RentItemPosterPost} from '../../Models/RentItem';
 import {HttpClient} from '@angular/common/http';
-import {environment} from '../../enviornments/enviornment';
 import {Router} from '@angular/router';
+import {environment} from '../../environment/environment';
 
 @Component({
   selector: 'app-confirmation-dialog',
@@ -24,7 +24,7 @@ export class ConfirmationDialogComponent {
 
   onPublish(){
     const formData = new FormData();
-    const data = this.data.rentItemPoster;
+    const data = this.data.RentItemPosterPost;
     console.log(this.data);
     formData.append('title', data.title);
     formData.append('location', data.location);

@@ -4,10 +4,10 @@ export interface RentItemPosterPost {
   title: string,
   location: string,
   transmission: string,
-  seats: number,
-  power: number,
-  year: number,
-  price: number,
+  seats: number | null,
+  power: number | null,
+  year: number | null,
+  price: number | null,
   rating: number,
 }
 

@@ -2,8 +2,8 @@ import {Inject, inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {BehaviorSubject, tap} from 'rxjs';
-import {environment} from '../enviornments/enviornment';
 import {isPlatformBrowser} from '@angular/common';
+import {environment} from '../environment/environment';
 
 
 @Injectable({

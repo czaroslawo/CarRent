@@ -4,8 +4,8 @@ import {NgForOf} from '@angular/common';
 import {RentItemPosterGet, RentItemPosterPost} from '../../Models/RentItem';
 import {Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {environment} from '../../enviornments/enviornment';
 import {Observable} from 'rxjs';
+import {environment} from '../../environment/environment';
 
 @Component({
   selector: 'app-home',
