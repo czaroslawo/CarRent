@@ -1,9 +1,9 @@
 import {Component, inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogClose, MatDialogRef} from '@angular/material/dialog';
-import {RentItemPosterPost} from '../../Models/RentItem';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {environment} from '../../environment/environment';
+import {RentItemPost} from '../../Models/RentItem';
 
 @Component({
   selector: 'app-confirmation-dialog',
@@ -27,22 +27,34 @@ export class ConfirmationDialogComponent {
     const data = this.data.RentItemPosterPost;
     console.log(this.data);
     formData.append('title', data.title);
+    formData.append('address', data.address);
     formData.append('location', data.location);
     formData.append('transmission', data.transmission);
-    formData.append('seats', data.seats.toString());
-    formData.append('power', data.power.toString());
-    formData.append('year', data.year.toString());
-    formData.append('price', data.price.toString());
-    formData.append('rating', data.rating.toString());
-    formData.append('imageUrl', this.data.images[0]);
+    formData.append('seats', String(data.seats));
+    formData.append('power', String(data.power));
+    formData.append('year', String(data.year));
+    formData.append('price', String(data.price));
+    formData.append('rating', String(data.rating));
+    formData.append('description', data.description);
+
+    (this.data.images as File[]).forEach((file, index) => {
+      formData.append(`imageUrl[${index}]`, file);
+    });
+    (this.data.images as File[]).forEach((file, index) => {
+      if(index < 1){
+        formData.append(`coverImageUrl[${index}]`, file);
+      }
+    });
 
 
-    console.log(formData);
-
-    this.http.post<RentItemPosterPost>(`${environment.apiUrl}/api/add-item-poster`, formData).subscribe({
+    this.http.post<RentItemPost>(`${environment.apiUrl}/api/add-item-with-poster`, formData).subscribe({
       next: () => {this.router.navigate(['/home']); console.log('addItem')},
-      error: err => {console.log(err)}
+      error: err => {console.log(err), console.log("formData", formData)}
     })
+
+    console.log("formData", formData);
+
+
     this.dialogRef.close(true);
   }
 

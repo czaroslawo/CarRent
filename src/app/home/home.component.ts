@@ -1,7 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {RentItemComponent} from '../rent-item/rent-item.component';
 import {NgForOf} from '@angular/common';
-import {RentItemPosterGet, RentItemPosterPost} from '../../Models/RentItem';
+import {RentItemPosterGet} from '../../Models/RentItem';
 import {Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';

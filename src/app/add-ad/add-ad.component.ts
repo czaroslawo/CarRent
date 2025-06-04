@@ -5,9 +5,9 @@ import {MatDialog} from '@angular/material/dialog';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {MapboxComponent} from '../mapbox/mapbox.component';
 import {FormsModule, NgForm} from '@angular/forms';
-import {RentItemPosterPost} from '../../Models/RentItem';
 import imageCompression from 'browser-image-compression';
 import {NgClass, NgIf} from '@angular/common';
+import {RentItemPost} from '../../Models/RentItem';
 
 
 @Component({
@@ -25,21 +25,21 @@ import {NgClass, NgIf} from '@angular/common';
 export class AddAdComponent {
   dialog = inject(MatDialog);
 
-  form: RentItemPosterPost = {
+  form: RentItemPost = {
     imageUrl: [],
+    coverImageUrl: [],
     title: '',
     location: '',
+    address: '',
     transmission: '',
     seats: null,
     year: null,
     power: null,
     rating: 0,
     price: null,
+    description: ''
   }
 
-  addAdForm: any
-
-  descript: string = ""
   submitted = false;
   images: File[] = [];
   transmission: string = '';
@@ -52,19 +52,20 @@ export class AddAdComponent {
 
     const data = this.form
 
-    if(form.invalid || this.images.length === 0 || !this.descript.trim()){
+    if(form.invalid || this.images.length === 0){
       return
     }
       this.dialog.open(ConfirmationDialogComponent,
         {data:{ RentItemPosterPost: data,
-          images: this.images }
+          images: this.images,
+          }
     });
 
 
   }
 
   onAddressRecived(address: string){
-    this.form.location = address;
+    this.form.address = address;
   }
 
   async onImageRecived(images: File[]){
@@ -88,6 +89,6 @@ export class AddAdComponent {
   }
 
   onCityRecived(city: string){
-
+    this.form.location = city;
   }
 }
