@@ -16,6 +16,7 @@ export interface RentItemPost {
 
 export interface RentItemPosterGet {
   id?: number,
+  rent_item_id: number | null,
   imageUrl: string,
   title: string,
   location: string,

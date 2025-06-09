@@ -1,0 +1,37 @@
+<div class="flex flex-col w-full h-full p-6">
+  <div class="flex">
+    <div class="flex basis-3/5 bg-white shadow-md h-100 rounded me-6">
+      <app-photo-gallery [images]="item.imageUrl"></app-photo-gallery>
+    </div>
+    <div class="flex basis-2/5">
+      <div class="flex flex-col bg-white shadow-md w-full p-4">
+        <div class="flex lg:flex-row flex-col h-min mb-6">
+          <div class="flex flex-col basis-1/2 lg:me-4 not-lg:mb-4">
+            <p class="text-3xl font-bold text-green-600 mb-2">{{ item.title }}</p>
+            <div class="flex flex-row mb-1">
+              <p class=" text-green-500">Skrzynia&nbsp;biegów:&nbsp;</p>
+              <p class="text-gray-700">{{ item.transmission }}</p>
+            </div>
+            <div class="flex flex-row mb-1">
+              <p class="text-green-500">Miejsca:&nbsp;</p>
+              <p class="text-gray-700">{{ item.seats }}</p>
+            </div><div class="flex flex-row mb-1">
+            <p class=" text-green-500">Moc silnika:&nbsp;</p>
+            <p class="text-gray-700">{{ item.power }} KM</p>
+          </div>
+            <div class="flex flex-row">
+              <p class=" text-green-500">Rok produkcji:&nbsp;</p>
+              <p class="text-gray-700">{{ item.year }}</p>
+            </div>
+          </div>
+          <app-mapbox class="flex basis-1/2 w-full h-50"></app-mapbox>
+        </div>
+        <div class="flex justify-center flex-col h-full w-full items-center">
+          <p class="font-bold text-2xl text-green-600 mb-4">{{ item.price }} PLN/dzień</p>
+          <button class="w-6/8 bg-green-600 p-3 text-white text-xl rounded-xl">zarezerwuj</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
