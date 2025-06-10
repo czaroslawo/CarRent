@@ -1,7 +1,7 @@
 <div class="flex flex-col w-full h-full p-6">
-  <div class="flex">
-    <div class="flex basis-3/5 bg-white shadow-md h-100 rounded me-6">
-      <app-photo-gallery [images]="item.imageUrl"></app-photo-gallery>
+  <div class="flex flex-col lg:flex-row gap-6">
+    <div class="flex basis-3/5 bg-white shadow-md h-fit rounded">
+      <app-photo-gallery *ngIf="item.imageUrl.length > 0" [images]="item.imageUrl" class="w-full"></app-photo-gallery>
     </div>
     <div class="flex basis-2/5">
       <div class="flex flex-col bg-white shadow-md w-full p-4">
@@ -24,11 +24,11 @@
               <p class="text-gray-700">{{ item.year }}</p>
             </div>
           </div>
-          <app-mapbox class="flex basis-1/2 w-full h-50"></app-mapbox>
+          <app-mapbox *ngIf="item.address!=''" [address]="item.address" class="flex basis-1/2 w-full h-50"></app-mapbox>
         </div>
         <div class="flex justify-center flex-col h-full w-full items-center">
           <p class="font-bold text-2xl text-green-600 mb-4">{{ item.price }} PLN/dzień</p>
-          <button class="w-6/8 bg-green-600 p-3 text-white text-xl rounded-xl">zarezerwuj</button>
+          <button class="w-6/8 bg-green-600 p-3 text-white text-xl rounded-xl hover:bg-green-700 active:bg-green-800">zarezerwuj</button>
         </div>
       </div>
     </div>

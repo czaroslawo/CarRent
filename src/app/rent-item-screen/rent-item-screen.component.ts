@@ -6,12 +6,14 @@ import {Observable} from 'rxjs';
 import {environment} from '../../environment/environment';
 import {ActivatedRoute} from '@angular/router';
 import {PhotoGalleryComponent} from '../photo-gallery/photo-gallery.component';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-rent-item-screen',
   imports: [
     MapboxComponent,
-    PhotoGalleryComponent
+    PhotoGalleryComponent,
+    NgIf
   ],
   templateUrl: './rent-item-screen.component.html',
   styleUrl: './rent-item-screen.component.css'

@@ -30,19 +30,20 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
   @Input() images: string[] = [];
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['images'] && this.images && this.images.length > 0) {
-      this.selectedImage = this.images[0];
-      this.imagePreviews = [...this.images];
-    }
-    console.log(this.selectedImage);
+    // if (changes['images'] && this.images && this.images.length > 0) {
+    //   this.selectedImage = this.images[0];
+    //   this.imagePreviews = [...this.images];
+    // }
+    // console.log(this.selectedImage);
   }
 
-
+  index: number = 0
 
 
   @Output() imageExport = new EventEmitter<File[]>();
-  selectImage(image: string) {
+  selectImage(image: string, i: number) {
     this.selectedImage = image;
+    this.index = i;
   }
 
   ngOnInit(): void {
@@ -52,5 +53,22 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
       this.imagePreviews.push(image);
     })
 
+
+  }
+
+  onRight() {
+    if(this.imagePreviews.length < this.index){
+      this.selectedImage = this.imagePreviews[this.index + 1]
+    }else{
+      this.selectedImage = this.imagePreviews[0];
+    }
+  }
+
+  onLeft() {
+    if(0 <= this.index-1){
+      this.selectedImage = this.imagePreviews[this.index - 1]
+    }else{
+      this.selectedImage = this.imagePreviews[-1];
+    }
   }
 }

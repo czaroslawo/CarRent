@@ -1,13 +1,21 @@
-<div class="flex flex-col gap-4 w-full items-center justify-center">
-  <div>
-    <div *ngIf="selectedImage" class="mt-4">
-      <p class=" text-green-600">Podgląd:</p>
-      <img [src]="selectedImage" alt="Selected image" class="w-100 aspect-[4/3] object-cover object-center rounded mb-4">
+<div class="flex flex-col gap-4 w-full p-4">
+  <div class="w-full">
+    <div class="flex w-full items-center justify-between">
+      <div class="lg:h-40 lg:w-20 md:h-30 md:w-15 w-10 h-20  bg-green-100 rounded flex-shrink-0 font-bold text-white text-3xl md:text-4xl lg:text-5xl flex justify-center items-center hover:bg-green-200">
+        <
+      </div>
+      <div class="min-w-0 flex-none">
+        <img [src]="selectedImage" alt="Selected image" class="lg:w-lg w-50 md:w-80 aspect-[4/3] object-cover object-center rounded mb-4">
+      </div>
+      <div (click)="onRight()"
+        class="lg:h-40 lg:w-20 md:h-30 md:w-15 w-10 h-20  bg-green-100 rounded flex-shrink-0 font-bold text-white text-3xl md:text-4xl lg:text-5xl flex justify-center items-center hover:bg-green-200">
+        >
+      </div>
     </div>
     <p class=" text-green-600">Galeria:</p>
     <div class="flex flex-wrap gap-4">
       <div *ngFor="let preview of imagePreviews; let i = index" class="relative">
-        <img [src]="preview" alt="Image preview" width="100" (click)="selectImage(preview)" class="rounded h-30 w-auto">
+        <img [src]="preview" alt="Image preview" (click)="selectImage(preview, i)" class="rounded h-10 md:h-20 w-auto">
       </div>
     </div>
   </div>

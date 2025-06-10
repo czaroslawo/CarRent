@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import {environment} from '../../environment/environment';
 
@@ -22,8 +22,47 @@ export class MapboxComponent implements OnInit {
   @Output() addressSelected = new EventEmitter<string>();
   @Output() citySelected = new EventEmitter<string>();
 
+  @Input() address!: string;
+
   ngOnInit(): void {
-    // (mapboxgl.default as any).accessToken = environment.mapboxToken;
+    let lng;
+    let lat;
+    // if(this.address != ''){
+    //   console.log(this.address);
+    //   const encodedAddress = encodeURIComponent(this.address);
+    //   console.log("encodedAddress:", encodedAddress);
+    //   console.log(encodedAddress);
+    //   const url = `https://api.mapbox.com/search/geocode/v6/forward?place=${encodedAddress}&access_token=${environment.mapboxToken}&language=pl`;
+    //   fetch(url)
+    //   .then(res => res.json())
+    //     .then(data => {
+    //       console.log('data:', data)
+    //       lng = data.features[0].geometry.coordinates[0];
+    //       lat = data.features[0].geometry.coordinates[1];
+    //       console.log(lng, lat)
+    //       this.map = new mapboxgl.Map({
+    //         container: 'map',
+    //         style: 'mapbox://styles/mapbox/streets-v11',
+    //         accessToken: environment.mapboxToken,
+    //         center: [lng!, lat!],
+    //         zoom: 7,
+    //         attributionControl: false,
+    //         interactive: false,
+    //
+    //       })
+    //     })
+    // }else{
+    //   this.map = new mapboxgl.Map({
+    //     container: 'map',
+    //     style: 'mapbox://styles/mapbox/streets-v11',
+    //     accessToken: environment.mapboxToken,
+    //     center: [17.03088, 51.11039],
+    //     zoom: 7,
+    //     attributionControl: false,
+    //
+    //   })
+    // }
+  // to wyzej działa ale komentuje żeby mi nie pobierało hajsu przy testowaniu strony XD
     this.map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
@@ -33,6 +72,8 @@ export class MapboxComponent implements OnInit {
       attributionControl: false,
 
     })
+
+
 
     this.map.on('click', (e) => {
       this.mapClickFn(e.lngLat)
