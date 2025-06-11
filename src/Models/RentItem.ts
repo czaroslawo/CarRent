@@ -1,5 +1,6 @@
 export interface RentItemPost {
   id?: number,
+  userId: number | null,
   imageUrl: File[],
   coverImageUrl: File[],
   title: string,
@@ -31,6 +32,7 @@ export interface RentItemPosterGet {
 
 export interface RentItemGet {
   id?: number,
+  userId: number | null,
   imageUrl: string[],
   title: string,
   address: string,

@@ -8,6 +8,7 @@ import {FormsModule, NgForm} from '@angular/forms';
 import imageCompression from 'browser-image-compression';
 import {NgClass, NgIf} from '@angular/common';
 import {RentItemPost} from '../../Models/RentItem';
+import {AuthService} from '../auth.service';
 
 
 @Component({
@@ -24,8 +25,10 @@ import {RentItemPost} from '../../Models/RentItem';
 })
 export class AddAdComponent {
   dialog = inject(MatDialog);
+  auth = inject(AuthService);
 
   form: RentItemPost = {
+    userId: null,
     imageUrl: [],
     coverImageUrl: [],
     title: '',
@@ -47,7 +50,8 @@ export class AddAdComponent {
   @ViewChild('inputLocation') inputLocation!: ElementRef;
 
   openDialog(form: NgForm) {
-
+    this.form.userId = this.auth.getUserId()
+    console.log(this.form.userId)
     this.submitted = true;
 
     const data = this.form

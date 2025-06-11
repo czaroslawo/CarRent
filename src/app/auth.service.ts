@@ -16,6 +16,7 @@ export class AuthService {
   private router = inject(Router);
 
   private tokenKey = 'auth_token';
+  private userId: string = '';
   private isLoggedIn$ = new BehaviorSubject<boolean>(false);
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
@@ -24,12 +25,15 @@ export class AuthService {
   }
 
   login(email: string, password: string){
-    return this.http.post<{token: string}>(`${environment.apiUrl}/api/login`, {email, password})
+    return this.http.post<{token: string, user: any}>(`${environment.apiUrl}/api/login`, {email, password})
       .pipe(
         tap(response =>{
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem(this.tokenKey, response.token);
+            localStorage.setItem(this.userId, response.user.id);
             this.isLoggedIn$.next(true);
+            console.log(response.user)
+            console.log(this.userId)
           }
           }
         )
@@ -48,6 +52,18 @@ export class AuthService {
     return isPlatformBrowser(this.platformId)
       ? localStorage.getItem(this.tokenKey)
       : null;
+  }
+
+  getUserId(): number | null{
+
+    let id;
+    if (isPlatformBrowser(this.platformId)){
+      id = localStorage.getItem(this.userId)
+    }else{
+      id = null
+    }
+    console.log("Getting user id: " + id);
+    return parseInt(id || '');
   }
 
   isAuthenticated(){

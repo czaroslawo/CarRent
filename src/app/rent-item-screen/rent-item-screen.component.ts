@@ -7,6 +7,7 @@ import {environment} from '../../environment/environment';
 import {ActivatedRoute} from '@angular/router';
 import {PhotoGalleryComponent} from '../photo-gallery/photo-gallery.component';
 import {NgIf} from '@angular/common';
+import {AuthService} from '../auth.service';
 
 @Component({
   selector: 'app-rent-item-screen',
@@ -22,6 +23,7 @@ export class RentItemScreenComponent implements OnInit {
 
   item: RentItemGet = {
     imageUrl: [],
+    userId: null,
     title: '',
     address: '',
     transmission: '',
@@ -36,10 +38,14 @@ export class RentItemScreenComponent implements OnInit {
   imageUrlSignal = signal<string[]>([]);
 
 
+
+
+
   id!: number;
 
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
+
 
     this.getItem().subscribe({
       next: (data: RentItemGet) => {
