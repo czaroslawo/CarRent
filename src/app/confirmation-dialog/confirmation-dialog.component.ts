@@ -26,6 +26,7 @@ export class ConfirmationDialogComponent {
     const formData = new FormData();
     const data = this.data.RentItemPosterPost;
     console.log(this.data);
+    formData.append('userId', data.userId)
     formData.append('title', data.title);
     formData.append('address', data.address);
     formData.append('location', data.location);

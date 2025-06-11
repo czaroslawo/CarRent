@@ -6,15 +6,17 @@ import {Observable} from 'rxjs';
 import {environment} from '../../environment/environment';
 import {ActivatedRoute} from '@angular/router';
 import {PhotoGalleryComponent} from '../photo-gallery/photo-gallery.component';
-import {NgIf} from '@angular/common';
+import {NgIf, NgOptimizedImage} from '@angular/common';
 import {AuthService} from '../auth.service';
+import {User} from '../../Models/User';
 
 @Component({
   selector: 'app-rent-item-screen',
   imports: [
     MapboxComponent,
     PhotoGalleryComponent,
-    NgIf
+    NgIf,
+    NgOptimizedImage
   ],
   templateUrl: './rent-item-screen.component.html',
   styleUrl: './rent-item-screen.component.css'
@@ -33,6 +35,17 @@ export class RentItemScreenComponent implements OnInit {
     price: 0,
     description: ''
   }
+
+  user: {
+    id: number | null,
+    phone_number: number | null,
+    name: string | null,
+  } = {
+    id: null,
+    phone_number: null,
+    name: null
+  }
+
   http = inject(HttpClient);
   route = inject(ActivatedRoute);
   imageUrlSignal = signal<string[]>([]);
@@ -57,6 +70,13 @@ export class RentItemScreenComponent implements OnInit {
         console.log('Błąd pobierania danych:', error);
       }
     })
+    this.getUser().subscribe({
+      next: (data: any) => {
+        this.user = data
+        console.log(this.user)
+
+      }
+    })
     console.log(this.item);
 
   }
@@ -64,6 +84,11 @@ export class RentItemScreenComponent implements OnInit {
   getItem(): Observable<RentItemGet> {
     console.log(this.id)
     return this.http.get<RentItemGet>(`${environment.apiUrl}/api/get-item/${this.id}`)
+  }
+
+  getUser(): Observable<User>{
+    console.log(this.item.userId)
+    return this.http.get<User>(`${environment.apiUrl}/api/get-user/${this.item.userId}`)
   }
 
 
