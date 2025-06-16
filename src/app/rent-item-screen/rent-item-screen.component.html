@@ -34,9 +34,9 @@
     </div>
   </div>
   <div class="flex flex-col lg:flex-row gap-6">
-    <div class="flex flex-col basis-3/5 bg-white shadow-md min-h-60 h-fit rounded p-4">
+    <div class="flex flex-col basis-3/5 min-w-0 bg-white shadow-md min-h-60 h-fit rounded p-4">
       <p class="mb-2 text-xl text-green-700">Opis:</p>
-      <p>{{item.description}}</p>
+      <p class="text-wrap break-words whitespace-pre-wrap">{{item.description}}</p>
     </div>
     <div class="flex flex-col basis-2/5 bg-white shadow-md min-h-60 h-fit rounded justify-center items-center p-4">
       <img src="assets/images/user_icon.png" alt="user_icon" class="w-15 h-15 mb-4">

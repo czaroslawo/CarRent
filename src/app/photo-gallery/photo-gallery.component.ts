@@ -16,7 +16,6 @@ import {NgForOf, NgIf} from '@angular/common';
   selector: 'app-photo-gallery',
   imports: [
     NgForOf,
-    NgIf
   ],
   standalone: true,
   templateUrl: './photo-gallery.component.html',
@@ -57,18 +56,26 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
   }
 
   onRight() {
-    if(this.imagePreviews.length < this.index){
+    if(this.imagePreviews.length-1 >= this.index+1){
       this.selectedImage = this.imagePreviews[this.index + 1]
+      this.index = this.index + 1;
+      console.log(this.selectedImage, this.index);
     }else{
       this.selectedImage = this.imagePreviews[0];
+      this.index = 0
+      console.log(this.selectedImage, this.index);
     }
   }
 
   onLeft() {
     if(0 <= this.index-1){
       this.selectedImage = this.imagePreviews[this.index - 1]
+      this.index = this.index - 1
+      console.log(this.selectedImage, this.index);
     }else{
-      this.selectedImage = this.imagePreviews[-1];
+      this.selectedImage = this.imagePreviews[this.imagePreviews.length-1];
+      this.index = this.imagePreviews.length-1
+      console.log(this.selectedImage, this.index);
     }
   }
 }

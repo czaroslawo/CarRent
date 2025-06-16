@@ -1,9 +1,10 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
-import {NgStyle} from '@angular/common';
+import {NgIf, NgStyle} from '@angular/common';
 import {MatDatepicker, MatDatepickerToggle, MatDateRangeInput, MatDateRangePicker} from '@angular/material/datepicker';
 
-import {RouterLink} from '@angular/router';
+import {NavigationEnd, Router, RouterLink} from '@angular/router';
+import {filter} from 'rxjs';
 
 @Component({
   selector: 'app-top-bar',
@@ -13,12 +14,26 @@ import {RouterLink} from '@angular/router';
     MatDateRangeInput,
     MatDateRangePicker,
     RouterLink,
+    NgIf,
 
   ],
   templateUrl: './top-bar.component.html',
   styleUrl: './top-bar.component.css'
 })
-export class TopBarComponent {
+export class TopBarComponent implements OnInit {
+
+    router = inject(Router);
+    url = ''
+
+
+    ngOnInit(): void {
+       this.url = this.router.url;
+
+       this.router.events.pipe(filter(event => event instanceof NavigationEnd))
+         .subscribe((event: NavigationEnd) => {
+           this.url = event.url;
+         })
+    }
 
 
 
