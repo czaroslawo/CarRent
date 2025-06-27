@@ -7,8 +7,11 @@ import {environment} from '../../environment/environment';
 import {ActivatedRoute} from '@angular/router';
 import {PhotoGalleryComponent} from '../photo-gallery/photo-gallery.component';
 import {NgIf, NgOptimizedImage} from '@angular/common';
-import {AuthService} from '../auth.service';
 import {User} from '../../Models/User';
+import {MatDialog} from '@angular/material/dialog';
+import {ReservationDialogComponent} from '../reservation-dialog/reservation-dialog.component';
+import {AuthService} from '../auth.service';
+
 
 @Component({
   selector: 'app-rent-item-screen',
@@ -16,7 +19,6 @@ import {User} from '../../Models/User';
     MapboxComponent,
     PhotoGalleryComponent,
     NgIf,
-    NgOptimizedImage
   ],
   templateUrl: './rent-item-screen.component.html',
   styleUrl: './rent-item-screen.component.css'
@@ -48,42 +50,56 @@ export class RentItemScreenComponent implements OnInit {
 
   http = inject(HttpClient);
   route = inject(ActivatedRoute);
+  dialog = inject(MatDialog);
+  auth = inject(AuthService)
+
   imageUrlSignal = signal<string[]>([]);
 
-
-
-
-
-  id!: number;
+  loggedUserId: number | null = null;
+  itemId!: number;
 
   ngOnInit(): void {
-    this.id = Number(this.route.snapshot.paramMap.get('id'));
-
+    this.itemId = Number(this.route.snapshot.paramMap.get('id'));
+    this.loggedUserId = this.auth.getUserId()
 
     this.getItem().subscribe({
       next: (data: RentItemGet) => {
         this.item = data
         this.imageUrlSignal.set(data.imageUrl);
         console.log(this.item);
+        console.log(this.item.userId);
+        this.getUser().subscribe({
+          next: (res: any) => {
+            this.user = res
+            console.log(this.user)
+
+          }
+        })
       },
       error: (error) => {
         console.log('Błąd pobierania danych:', error);
       }
     })
-    this.getUser().subscribe({
-      next: (data: any) => {
-        this.user = data
-        console.log(this.user)
 
-      }
-    })
     console.log(this.item);
 
   }
 
+  onReservation(){
+    console.log("rezerwacja")
+    if(this.loggedUserId != null){
+      console.log("user id", this.loggedUserId)
+      this.dialog.open(ReservationDialogComponent, {
+        data: {
+          itemId: this.itemId
+        }
+      })
+    }
+  }
+
   getItem(): Observable<RentItemGet> {
-    console.log(this.id)
-    return this.http.get<RentItemGet>(`${environment.apiUrl}/api/get-item/${this.id}`)
+    console.log(this.itemId)
+    return this.http.get<RentItemGet>(`${environment.apiUrl}/api/get-item/${this.itemId}`)
   }
 
   getUser(): Observable<User>{
@@ -92,4 +108,5 @@ export class RentItemScreenComponent implements OnInit {
   }
 
 
+  protected readonly name = name;
 }

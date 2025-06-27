@@ -1,0 +1,21 @@
+<div *ngIf="loaded" class="flex flex-col justify-center items-center p-8">
+  <p class="text-2xl text-green-600 mb-2 text-center">Wygląda na to że ten samochód zrobił na tobie wrażenie!</p>
+  <p class="text-xl text-green-500 mb-4">W jakim terminie planujesz rezerwacę?</p>
+  <mat-form-field >
+    <mat-label>wprowadź zakres czasu</mat-label>
+    <mat-date-range-input [min]="minDate" [dateFilter]="combinedFilter" [formGroup]="range" [rangePicker]="picker">
+      <input matStartDate formControlName="date_start" placeholder="Start date">
+      <input matEndDate formControlName="date_end" placeholder="End date">
+    </mat-date-range-input>
+    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+
+<!--    @if (range.controls.date_start.hasError('matStartDateInvalid')) {-->
+<!--      <mat-error>Invalid start date</mat-error>-->
+<!--    }-->
+<!--    @if (range.controls.date_end.hasError('matEndDateInvalid')) {-->
+<!--      <mat-error>Invalid end date</mat-error>-->
+<!--    }-->
+  </mat-form-field>
+</div>

@@ -11,8 +11,6 @@ import {filter} from 'rxjs';
   imports: [
     MatIcon,
     NgStyle,
-    MatDateRangeInput,
-    MatDateRangePicker,
     RouterLink,
     NgIf,
 
