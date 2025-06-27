@@ -1,0 +1,22 @@
+///* You can add global styles to this file, and also import other style files */
+//@import "tailwindcss";
+//
+//html, body { height: 100%; }
+//body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+//
+
+@use "tailwindcss";
+::ng-deep .mat-calendar {
+  background-color: #f0fdf4 !important;
+}
+::ng-deep .mat-calendar-body-selected {
+  background-color: #22c55e !important;
+  color: white !important;
+}
+::ng-deep .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+  border: 1px solid #16a34a !important;
+}
+
+::ng-deep .mat-form-field-label {
+  @apply text-green-600;
+}
