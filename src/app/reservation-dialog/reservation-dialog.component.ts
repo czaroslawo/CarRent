@@ -1,13 +1,14 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {MatFormField, MatHint, MatInputModule, MatLabel} from '@angular/material/input';
 import {MatNativeDateModule, provideNativeDateAdapter} from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NgIf} from '@angular/common';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {NgClass, NgIf} from '@angular/common';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environment/environment';
 import {BookedDatesResponse, Reservation} from '../../Models/Reservation';
+import {MapboxComponent} from '../mapbox/mapbox.component';
 
 
 @Component({
@@ -22,6 +23,8 @@ import {BookedDatesResponse, Reservation} from '../../Models/Reservation';
     MatLabel,
     MatInputModule,
     NgIf,
+    MapboxComponent,
+    NgClass,
   ],
   templateUrl: './reservation-dialog.component.html',
   styleUrl: './reservation-dialog.component.css',
@@ -29,19 +32,24 @@ import {BookedDatesResponse, Reservation} from '../../Models/Reservation';
 })
 export class ReservationDialogComponent implements OnInit{
 
+
   data = inject(MAT_DIALOG_DATA)
   http = inject(HttpClient)
 
   bookedDates: Array<Reservation> = []
   loaded: boolean = false;
+  submitted: boolean = false;
+  address: string | null = null
+
+  errorMessage = signal('');
 
 
   minDate: Date = new Date(new Date().setHours(0, 0, 0, 0));
 
 
   readonly range = new FormGroup({
-    date_start: new FormControl<Date | null>(null),
-    date_end: new FormControl<Date | null>(null),
+    date_start: new FormControl<Date | null>(null, [Validators.required]),
+    date_end: new FormControl<Date | null>(null, [Validators.required]),
   });
 
 
@@ -77,8 +85,18 @@ export class ReservationDialogComponent implements OnInit{
 
         error: error => {console.log('reservation loading error', error); this.loaded = true;}
       })
+  }
 
+  onReservation(){
+    this.submitted = true;
+    console.log("submitted", this.submitted);
+    if(this.range.invalid){
+      this.errorMessage.set('Musisz wybrać okres czasu')
+    }
+  }
 
+  onAddressRecived(address: string){
+    this.address = address;
   }
 
 

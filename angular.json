@@ -29,10 +29,14 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
-              "src/styles.scss",
+              "src/styles.css",
+              "global.scss",
               "node_modules/mapbox-gl/dist/mapbox-gl.css"
 
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src"]
+            },
             "scripts": []
           },
           "configurations": {

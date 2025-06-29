@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import {environment} from '../../environment/environment';
 
@@ -15,14 +15,36 @@ interface MapboxFeature {
   templateUrl: './mapbox.component.html',
   styleUrl: './mapbox.component.css'
 })
-export class MapboxComponent implements OnInit {
+export class MapboxComponent implements OnInit, AfterViewInit {
+  @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef<HTMLDivElement>;
   map!: mapboxgl.Map;
+
   marker: mapboxgl.Marker | null = null;
 
   @Output() addressSelected = new EventEmitter<string>();
   @Output() citySelected = new EventEmitter<string>();
 
   @Input() address!: string;
+
+  ngAfterViewInit(): void {
+    this.map = new mapboxgl.Map({
+      container: this.mapContainer.nativeElement,
+      style: 'mapbox://styles/mapbox/streets-v11',
+      accessToken: environment.mapboxToken,
+      center: [17.03088, 51.11039],
+      zoom: 7,
+      attributionControl: false,
+
+    })
+
+    this.map.on('load', () => {
+      this.map.resize();
+    });
+
+    this.map.on('click', (e) => {
+      this.mapClickFn(e.lngLat)
+    })
+  }
 
   ngOnInit(): void {
     let lng;
@@ -41,7 +63,7 @@ export class MapboxComponent implements OnInit {
     //       lat = data.features[0].geometry.coordinates[1];
     //       console.log(lng, lat)
     //       this.map = new mapboxgl.Map({
-    //         container: 'map',
+    //         container: this.mapContainer.nativeElement,,
     //         style: 'mapbox://styles/mapbox/streets-v11',
     //         accessToken: environment.mapboxToken,
     //         center: [lng!, lat!],
@@ -53,7 +75,7 @@ export class MapboxComponent implements OnInit {
     //     })
     // }else{
     //   this.map = new mapboxgl.Map({
-    //     container: 'map',
+    //     container: this.mapContainer.nativeElement,,
     //     style: 'mapbox://styles/mapbox/streets-v11',
     //     accessToken: environment.mapboxToken,
     //     center: [17.03088, 51.11039],
@@ -63,21 +85,23 @@ export class MapboxComponent implements OnInit {
     //   })
     // }
   // to wyzej działa ale komentuje żeby mi nie pobierało hajsu przy testowaniu strony XD
-    this.map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      accessToken: environment.mapboxToken,
-      center: [17.03088, 51.11039],
-      zoom: 7,
-      attributionControl: false,
-
-    })
 
 
-
-    this.map.on('click', (e) => {
-      this.mapClickFn(e.lngLat)
-    })
+    // this.map = new mapboxgl.Map({
+    //   container: 'map',
+    //   style: 'mapbox://styles/mapbox/streets-v11',
+    //   accessToken: environment.mapboxToken,
+    //   center: [17.03088, 51.11039],
+    //   zoom: 7,
+    //   attributionControl: false,
+    //
+    // })
+    //
+    //
+    //
+    // this.map.on('click', (e) => {
+    //   this.mapClickFn(e.lngLat)
+    // })
   }
 
   mapClickFn(coordinates: mapboxgl.LngLat) {
@@ -128,4 +152,6 @@ export class MapboxComponent implements OnInit {
 
     return city || "Nieznane miasto";
   }
+
+
 }

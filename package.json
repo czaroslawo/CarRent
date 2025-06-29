@@ -32,6 +32,7 @@
     "@angular-devkit/build-angular": "^19.2.4",
     "@angular/cli": "^19.2.4",
     "@angular/compiler-cli": "^19.2.0",
+    "@tailwindcss/language-server": "^0.14.23",
     "@types/jasmine": "~5.1.0",
     "@types/mapbox-gl": "^3.4.1",
     "@types/node": "^18.18.0",

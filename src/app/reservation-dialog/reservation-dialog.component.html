@@ -1,15 +1,37 @@
-<div *ngIf="loaded" class="flex flex-col justify-center items-center p-8">
-  <p class="text-2xl text-green-600 mb-2 text-center">Wygląda na to że ten samochód zrobił na tobie wrażenie!</p>
-  <p class="text-xl text-green-500 mb-4">W jakim terminie planujesz rezerwacę?</p>
-  <mat-form-field>
-    <mat-label>wprowadź zakres czasu</mat-label>
-    <mat-date-range-input [min]="minDate" [dateFilter]="combinedFilter" [formGroup]="range" [rangePicker]="picker">
-      <input matStartDate formControlName="date_start" placeholder="Start date">
-      <input matEndDate formControlName="date_end" placeholder="End date">
-    </mat-date-range-input>
-    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field>
-  <p class="text-md text-green-600 mb-2 text-center">Gdzie chcesz odebrać auto?</p>
-</div>
+<form (ngSubmit)="onReservation()" #reservationDialogForm='ngForm' novalidate>
+  <div class="bg-green-500 p-4 shadow-xl rounded-xl">
+    <p class="text-2xl text-white mb-2 text-center font-bold mb-2">Wygląda na to że ten samochód zrobił na tobie wrażenie!</p>
+    <p class="text-xl text-white text-center">W jakim terminie planujesz rezerwacę?</p>
+  </div>
+  <div *ngIf="loaded" class="flex flex-col justify-center items-center p-8">
+    <mat-form-field class="mb-4 w-full">
+      <mat-label>wprowadź zakres czasu</mat-label>
+      <mat-date-range-input [min]="minDate" [dateFilter]="combinedFilter" [formGroup]="range" [rangePicker]="picker">
+        <input matStartDate formControlName="date_start" placeholder="Start date">
+        <input matEndDate formControlName="date_end" placeholder="End date">
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+      <mat-error *ngIf="submitted && range.invalid">{{errorMessage()}}</mat-error>
+    </mat-form-field>
+    <p class="text-md text-green-600 mb-4 text-center">Gdzie chcesz odebrać auto?</p>
+    <div class="w-full h-64 mb-4">
+      <app-mapbox (addressSelected)="onAddressRecived($event)" class="w-full h-full"></app-mapbox>
+    </div>
+
+    <p *ngIf="submitted && addresss.invalid" class="text-red-500 text-xs mb-1 hidden">Pole jest wymagane</p>
+    <input name="address" [(ngModel)]="address" #addresss='ngModel' type="text" spellcheck="false"
+           [ngClass]="{
+          'border-red-500 focus:border-red-500': submitted && addresss.invalid,
+          'border-gray-300 focus:border-green-500': !(submitted && addresss.invalid)
+          }" class="border  outline-0 rounded p-2 mb-2 placeholder:text-gray-700 w-full"
+           placeholder="Wybierz lokalizację na mapie" required>
+      <p class="text-sm text-gray-600 mb-4">
+        (właściciel auta zaakceptuje wtybrane miejsce, albo poprosi o wspólne ustalenie miejsca w wiaomosći prywatnej)</p>
+  <button class="bg-green-500 text-white font-bold p-4 rounded-xl w-full hover:bg-green-600 active:bg-green-700 shadow-md">
+    zarezerwuj
+  </button>
+  </div>
+</form>
+
