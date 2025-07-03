@@ -4,6 +4,9 @@ export interface BookedDatesResponse {
 }
 
 export interface Reservation {
-  startDate: string,
-  endDate: string
+  rent_item_id: number,
+  user_id: number,
+  start_date: string  | Date | null,
+  end_date: string | Date | null,
+  address: string,
 }

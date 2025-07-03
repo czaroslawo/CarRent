@@ -39,10 +39,8 @@ export class ReservationDialogComponent implements OnInit{
   bookedDates: Array<Reservation> = []
   loaded: boolean = false;
   submitted: boolean = false;
-  address: string | null = null
 
   errorMessage = signal('');
-
 
   minDate: Date = new Date(new Date().setHours(0, 0, 0, 0));
 
@@ -52,6 +50,14 @@ export class ReservationDialogComponent implements OnInit{
     date_end: new FormControl<Date | null>(null, [Validators.required]),
   });
 
+  reservation: Reservation = {
+    rent_item_id: this.data.itemId,
+    user_id: this.data.userId,
+    start_date: '',
+    end_date: '',
+    address: '',
+  }
+
 
   dateFilter = (d: Date | null): boolean =>{
     if (!d) return false;
@@ -59,8 +65,8 @@ export class ReservationDialogComponent implements OnInit{
     const check = new Date(d);
     check.setHours(0, 0, 0, 0);
     return !this.bookedDates.some(reservation => {
-      const start = new Date(reservation.startDate + 'T00:00:00')
-      const end = new Date(reservation.endDate + 'T00:00:00');
+      const start = new Date(reservation.start_date + 'T00:00:00')
+      const end = new Date(reservation.end_date + 'T00:00:00');
       start.setHours(0, 0, 0, 0);
       end.setHours(0, 0, 0, 0);
       return start <= check && end >= check;
@@ -87,16 +93,24 @@ export class ReservationDialogComponent implements OnInit{
       })
   }
 
-  onReservation(){
+  onReservation() {
     this.submitted = true;
     console.log("submitted", this.submitted);
-    if(this.range.invalid){
+    if (this.range.invalid) {
       this.errorMessage.set('Musisz wybrać okres czasu')
-    }
+    }else {
+      this.reservation.start_date = this.range.controls['date_start'].value!.toISOString().split('T')[0]
+      this.reservation.end_date = this.range.controls['date_end'].value!.toISOString().split('T')[0]
+      console.log(this.reservation)
+      this.http.post<Reservation>(`${environment.apiUrl}/api/reservation`, this.reservation).subscribe({
+        next: data => {console.log("reservation success", data)},
+        error: error => {console.log('reservation adding error', error);}
+      })
+  }
   }
 
   onAddressRecived(address: string){
-    this.address = address;
+    this.reservation.address = address;
   }
 
 

@@ -21,14 +21,14 @@
     </div>
 
     <p *ngIf="submitted && addresss.invalid" class="text-red-500 text-xs mb-1 hidden">Pole jest wymagane</p>
-    <input name="address" [(ngModel)]="address" #addresss='ngModel' type="text" spellcheck="false"
+    <input name="address" [(ngModel)]="reservation.address" #addresss='ngModel' type="text" spellcheck="false"
            [ngClass]="{
           'border-red-500 focus:border-red-500': submitted && addresss.invalid,
           'border-gray-300 focus:border-green-500': !(submitted && addresss.invalid)
           }" class="border  outline-0 rounded p-2 mb-2 placeholder:text-gray-700 w-full"
            placeholder="Wybierz lokalizację na mapie" required>
       <p class="text-sm text-gray-600 mb-4">
-        (właściciel auta zaakceptuje wtybrane miejsce, albo poprosi o wspólne ustalenie miejsca w wiaomosći prywatnej)</p>
+        (właściciel auta zaakceptuje wybrane miejsce, albo poprosi o wspólne ustalenie miejsca w wiaomosći prywatnej)</p>
   <button class="bg-green-500 text-white font-bold p-4 rounded-xl w-full hover:bg-green-600 active:bg-green-700 shadow-md">
     zarezerwuj
   </button>

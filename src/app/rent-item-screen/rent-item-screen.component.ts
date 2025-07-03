@@ -91,7 +91,8 @@ export class RentItemScreenComponent implements OnInit {
       console.log("user id", this.loggedUserId)
       this.dialog.open(ReservationDialogComponent, {
         data: {
-          itemId: this.itemId
+          itemId: this.itemId,
+          userId: this.user.id,
         }
       })
     }
